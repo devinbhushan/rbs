@@ -1,12 +1,15 @@
 from scorer import Scorer
 from util import url_to_json
+from math import log
 
 
 class ReviewBoardScorer(Scorer):
     """Implements Scorer class with ReviewBoard specific scoring heuristics"""
 
-    def __init__(self, username):
+    def __init__(self, username, grace_period, review_length):
         self.username = username
+        self.grace_period = int(grace_period)
+        self.review_length = int(review_length)
         self.shipits_recv = []
         self.shipits_given = []
         self.response_results = {}
@@ -15,7 +18,7 @@ class ReviewBoardScorer(Scorer):
     def _get_data(self):
         """Gets data from ReviewBoard REST API and gets code that user shipit'ed
         as well as code he submitted for review"""
-        json_data = url_to_json("http://10.16.20.100:8080/api/search/?q=%s" % self.username)
+        json_data = url_to_json("http://localhost:8080/api/search/?q=%s" % self.username)
 
         for review in json_data["search"]["reviews"]:
             if review["ship_it"] is True:
@@ -37,12 +40,21 @@ class ReviewBoardScorer(Scorer):
         """Calculates negative component of the user's score based on
         time taken to reply to tagged review requests and time taken
         to ship code from a review request from the time it was posted"""
-        return 0
+        negative_score = 0
+        for result in self.response_results.values():
+            result = float(result)
+            if result < self.grace_period:
+                pass
+            else:
+                result -= self.grace_period
+                negative_score += log(result)/(log(self.review_length))
+        print negative_score
+        return negative_score
 
     def evaluate(self):
         """Evaluates score calculations for given user"""
         self._get_data()
         return self._score_positive(), self._score_negative()
 
-# rbs = ReviewBoardScorer("emills")
-# rbs.evaluate()
+rbs = ReviewBoardScorer("emills", 3600, 1209600) # 1 hour and 14 days
+rbs.evaluate()
