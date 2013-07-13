@@ -3,3 +3,33 @@
 .boolean { color: blue; }
 .null { color: magenta; }
 .key { color: red; }
+
+.pure-form button, .pure-form input {
+	padding: 20px;
+	font-size: 1.5em;
+	text-align: center;
+}
+
+.pure-form button {
+	margin-top: 10px;
+}
+
+#content {
+	margin: 0 auto;
+}
+
+h1 {
+	font-family: 'Grand Hotel', Arial, san-serif;
+	font-size: 150px;
+	line-height: 50px;
+	text-align: center;
+	color: #ddd;
+}
+
+.blue {
+	color: #0072dc;
+}
+
+body {
+	background: url(/static/img/binding_dark.png);
+}
