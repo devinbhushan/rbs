@@ -15,11 +15,11 @@ class UserStats(models.Model):
         rb = ReviewBoardScorer(self.name, 3600, 1209600)
         bz = BugzillaScorer(self.name)
         rbp, rbn, times = rb.evaluate()
-        # bz.update_bug_list(rb.get_bug_list())
-        # bzp, bzn = bz.evaluate()
+        bz.update_bug_list(rb.get_bug_list())
+        bzp, bzn = bz.evaluate()
         # print bzp, pzn, rbs
         self.score = rbp - rbn
-        self.data = json.dumps({'rbp':rbp, 'rbn':rbn, 'times': times})
+        self.data = json.dumps({'rbp':rbp, 'rbn':rbn, 'times': times, 'bzp':bzp, 'bzn': bzn})
         self.save()
         return self.data
 
