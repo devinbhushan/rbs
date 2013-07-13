@@ -13,12 +13,13 @@ class ReviewBoardScorer(Scorer):
         self.shipits_recv = []
         self.shipits_given = []
         self.response_results = {}
+        self.bug_list = None
         pass
 
     def _get_data(self):
         """Gets data from ReviewBoard REST API and gets code that user shipit'ed
         as well as code he submitted for review"""
-        json_data = url_to_json("http://localhost:8080/api/search/?q=%s" % self.username)
+        json_data = url_to_json("http://10.16.20.100:8080/api/search/?q=%s" % self.username)
 
         for review in json_data["search"]["reviews"]:
             if review["ship_it"] is True:
@@ -28,6 +29,7 @@ class ReviewBoardScorer(Scorer):
             self.shipits_recv.append(shipit_received)
 
         self.response_results = json_data["search"]["response_results"]
+        self.bug_list = json_data
 
     def _score_positive(self):
         """Calculates positive component of the user's score based on
@@ -51,9 +53,9 @@ class ReviewBoardScorer(Scorer):
         print negative_score
         return negative_score
 
-    def get_bug_list():
+    def get_bug_list(self):
         """Return bug list from JSON"""
-        return json_data["search"]["bugs_closed"]
+        return self.bug_list["search"]["bugs_closed"]
 
     def evaluate(self):
         """Evaluates score calculations for given user"""

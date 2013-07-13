@@ -19,7 +19,10 @@
     <button id="user-search-button" class="pure-button pure-input-1 pure-button-primary" type="submit">Submit</button>
 </form>
 <div class="pure-u-1-4"></div>
+<h3>User Positive and Negative Scores</h3>
 <div class="base"></div>
+<h3>Fastest Average Response Times (s)</h3>
+<div class="time"></div>
 <pre class="json-content">
 </pre>
 {% endblock %}
@@ -41,9 +44,9 @@
             }).done(function( msg ) {
                 console.log(msg);
                 raw = JSON.parse(msg['resp'])
-                output(syntaxHighlight(raw));
+                //output(syntaxHighlight(raw));
                 d = JSON.parse(msg.score);
-                var dataset = [d.rbp, d.rbn];
+                var dataset = [d.rbp+10, d.rbn+10];
 
 
                 //USER
@@ -51,7 +54,7 @@
                 $('.sidebar').append('<div class="box"><span class="name">'+user.first_name+' '+user.last_name+'</span><br><img width="64px" src="'+user.avatar_url+'"/></div>');
 
                 var w = 300;
-                var h = 300;
+                var h = 250;
                 var barPadding = 1;
                 var svg = d3.select(".base")
                             .append("svg")
@@ -109,8 +112,86 @@
                        .attr("text-anchor", "middle")
                        .style("font-size", "16px")
                        .style("text-decoration", "underline")
+                       .style("font-weight", "bold")
                        .attr("fill", "white")
-                       .text("User Positive and Negative Scores");
+                       .text(user.username);
+
+
+                tt = [];
+                for (key in d.times) {
+                    tt.push(Math.abs(d.times[key]));
+                }
+
+
+                var svg2 = d3.select(".time")
+                            .append("svg")
+                            .attr("width", w)
+                            .attr("height", h);
+
+                var scale2 = d3.scale.linear()
+                            .domain([0, 5000])
+                            .range([h, 0]);
+
+                console.log(tt);
+                svg2.selectAll("rect")
+                   .data(tt)
+                   .enter()
+                   .append("rect")
+                   .attr("x", function(d, i) {
+                        return i * (w / tt.length);
+                   })
+                   .attr("y", function(d) {
+                        return scale2(d);
+                   })
+                   .attr("width", w / tt.length - barPadding)
+                   .attr("height", function(d) {
+                        return scale2(Math.abs(d));
+                   })
+                   .attr("fill", function(d, i) {
+                       console.log(i);
+                       if(i==1) {
+                           return 'rgb(200,50,50)';
+                       }
+                       return 'rgb(50,200,50)';
+                   })
+
+
+                svg2.selectAll("text")
+                   .data(tt)
+                   .enter()
+                   .append("text")
+                   .text(function(d) {
+                        return d;
+                   })
+                   .attr("text-anchor", "middle")
+                   .attr("x", function(d, i) {
+                        return i * (w / tt.length) + (w / tt.length - barPadding) / 2;
+                   })
+                   .attr("y", function(d) {
+                        return scale2(Math.abs(d));
+                   })
+                   .attr("font-family", "sans-serif")
+                   .attr("font-size", "14px")
+                   .attr("fill", "white");
+
+               svg2.append("text")
+                       .attr("x", (w / 2))
+                       .attr("y", 20)
+                       .attr("text-anchor", "middle")
+                       .style("font-size", "16px")
+                       .style("text-decoration", "underline")
+                       .style("font-weight", "bold")
+                       .attr("fill", "white")
+                       .text(user.username);
+
+
+
+
+
+
+
+
+
 
                 var offset = $('h1').offset();
                 var offset2 = $('.user-search-form').offset();

@@ -13,16 +13,19 @@ class BugzillaScorer(Scorer):
         # self.data = url_to_json("https://api-dev.bugzilla.mozilla.org/latest/bug?product=Bugzilla&priority=P1&creator_name%s" % self.username)
         self.data = {}
         for bug in self.bug_list:
-            self.bug_history[bug] = url_to_json("https://api-dev.bugzilla.mozilla.org/latest/bug/%s/history" % bug)
+            try:
+                self.bug_history[bug] = url_to_json("https://api-dev.bugzilla.mozilla.org/latest/bug/%s/history" % bug)
+            except:
+                pass
 
     def _score_positive(self):
         assigned_points = 0
 
     def _score_negative(self):
         missed = self._count_missed_resolutions(self.bug_list)
-        return count
+        return missed
 
-    def _count_missed_resolutions(bugs):
+    def _count_missed_resolutions(self, bugs):
         count = 0
         for bug in self.bug_history:
             #for each change of state

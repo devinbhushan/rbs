@@ -29,11 +29,17 @@ h1 {
 	height: 50px;
 	text-align: center;
 	color: #ddd;
-	border: 1px dashed #333;
+	border: 1px dashed #777;
 }
 
-.base {
+h3 {
+	padding-left: 325px;
 	color: #ddd;
+}
+
+.base, .time {
+	color: #ddd;
+	padding-left: 325px;
 }
 
 .blue {
@@ -77,7 +83,9 @@ background-color: teal;
 	font-weight: bold;
 }
 
-
+.base svg, .time svg {
+	border-left: 1px dashed #777;
+}
 
 .axis path,
 .axis line {
