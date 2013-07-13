@@ -8,6 +8,9 @@
 {% endblock %}
 
 {% block content %}
+<div class="sidebar">
+</div>
+
 <h1>ship<span class="blue">it!</span></h1>
 <div class="pure-u-1-4"></div>
 <form action="" method="POST" class="user-search-form pure-form pure-u-1-2">
@@ -38,33 +41,26 @@
             }).done(function( msg ) {
                 console.log(msg);
                 raw = JSON.parse(msg['resp'])
+                output(syntaxHighlight(raw));
                 d = JSON.parse(msg.score);
                 var dataset = [d.rbp, d.rbn];
-                // console.log(dataset);
 
-                // d3.select(".base").selectAll("div")
-                // .data(dataset)
-                // .enter()
-                // .append("div")
-                // .attr("class", "bar")
-                // .attr("fill", function(d, i) {
-                //     console.log(i);
-                //     if(i==1) {
-                //         return 'rgb(200,50,50)';
-                //     }
-                // })
-                // .style("height", function(d) {
-                //     var barHeight = d * 20;
-                //     return barHeight + "px";
-                // });
 
-                var w = 200;
-                var h = 400;
+                //USER
+                var user = raw.search.users[0];
+                $('.sidebar').append('<div class="box"><span class="name">'+user.first_name+' '+user.last_name+'</span><br><img width="64px" src="'+user.avatar_url+'"/></div>');
+
+                var w = 300;
+                var h = 300;
                 var barPadding = 1;
                 var svg = d3.select(".base")
                             .append("svg")
                             .attr("width", w)
                             .attr("height", h);
+
+                var scale = d3.scale.linear()
+                            .domain([0, 100])
+                            .range([h, 0]);
 
                 svg.selectAll("rect")
                    .data(dataset)
@@ -74,11 +70,11 @@
                         return i * (w / dataset.length);
                    })
                    .attr("y", function(d) {
-                        return h - (d * 15);
+                        return scale(d);
                    })
                    .attr("width", w / dataset.length - barPadding)
                    .attr("height", function(d) {
-                        return d * 15;
+                        return scale(d);
                    })
                    .attr("fill", function(d, i) {
                        console.log(i);
@@ -86,9 +82,36 @@
                            return 'rgb(200,50,50)';
                        }
                        return 'rgb(50,200,50)';
-                   });
+                   })
 
-                // output(syntaxHighlight(raw));
+
+                svg.selectAll("text")
+                   .data(dataset)
+                   .enter()
+                   .append("text")
+                   .text(function(d) {
+                        return d;
+                   })
+                   .attr("text-anchor", "middle")
+                   .attr("x", function(d, i) {
+                        return i * (w / dataset.length) + (w / dataset.length - barPadding) / 2;
+                   })
+                   .attr("y", function(d) {
+                        return h - (d * 4) + 14;
+                   })
+                   .attr("font-family", "sans-serif")
+                   .attr("font-size", "14px")
+                   .attr("fill", "white");
+
+               svg.append("text")
+                       .attr("x", (w / 2))
+                       .attr("y", 20)
+                       .attr("text-anchor", "middle")
+                       .style("font-size", "16px")
+                       .style("text-decoration", "underline")
+                       .attr("fill", "white")
+                       .text("User Positive and Negative Scores");
+
                 var offset = $('h1').offset();
                 var offset2 = $('.user-search-form').offset();
                 $('h1').css({
