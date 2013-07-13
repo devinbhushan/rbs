@@ -48,7 +48,6 @@ class ReviewBoardScorer(Scorer):
             else:
                 result -= self.grace_period
                 negative_score += log(result)/(log(self.review_length))
-        print negative_score
         return negative_score
 
     def evaluate(self):

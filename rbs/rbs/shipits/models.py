@@ -10,7 +10,7 @@ class UserStats(models.Model):
         return self.name
 
     def compute_score(self):
-        rb = ReviewBoardScorer(self.name)
+        rb = ReviewBoardScorer(self.name, 3600, 1209600)
         bz = BugzillaScorer(self.name)
         rbp, rbn = rb.evaluate()
         # bz.update_bug_list(rb.get_bug_list())
