@@ -4,6 +4,10 @@
 .null { color: magenta; }
 .key { color: red; }
 
+.pure-form {
+	border: 1px dashed #333;
+}
+
 .pure-form button, .pure-form input {
 	padding: 20px;
 	font-size: 1.5em;
@@ -22,6 +26,12 @@ h1 {
 	font-family: 'Grand Hotel', Arial, san-serif;
 	font-size: 150px;
 	line-height: 50px;
+	text-align: center;
+	color: #ddd;
+	border: 1px dashed #333;
+}
+
+h2 {
 	text-align: center;
 	color: #ddd;
 }

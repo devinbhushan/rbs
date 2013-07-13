@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %} ReviewBoard Scoring System {% endblock %}
 
@@ -8,21 +9,32 @@
 
 {% block content %}
 <h1>ship<span class="blue">it!</span></h1>
+<h2>{% if score %}{{ score }}{% endif %}</h2>
 <div class="pure-u-1-4"></div>
 <form action="" method="POST" class="pure-form pure-u-1-2">
     {% csrf_token %}
     <input name="user" type="text" class="pure-input-1" placeholder="Enter username of employee you would like to see">
-    <button class="pure-button pure-input-1 pure-button-primary" type="submit">Submit</button>
+    <button id="user-search-button" class="pure-button pure-input-1 pure-button-primary" type="submit">Submit</button>
 </form>
 
 <div class="pure-u-1-4"></div>
 <pre class="json-content">
 </pre>
 {% endblock %}
-{% block javascript %}{% endblock %}
+{% block javascript %}
+<script src="{% static 'js/d3.v3.min.js' %}"></script>
+{% endblock %}
 
 {% block inline-javascript %}
 <script>
+    $(document).ready(function() {
+        $('#user-search-button').submit(function(e) {
+
+        })
+    });
+
+
+
     {% if resp %}
     var obj = {{ resp|safe }};
     output(syntaxHighlight(obj));

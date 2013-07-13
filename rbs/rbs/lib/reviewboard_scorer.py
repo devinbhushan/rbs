@@ -15,7 +15,7 @@ class ReviewBoardScorer(Scorer):
     def _get_data(self):
         """Gets data from ReviewBoard REST API and gets code that user shipit'ed
         as well as code he submitted for review"""
-        json_data = url_to_json("http://localhost:8080/api/search/?q=%s" % self.username)
+        json_data = url_to_json("http://10.16.20.100:8080/api/search/?q=%s" % self.username)
 
         for review in json_data["search"]["reviews"]:
             if review["ship_it"] is True:
@@ -37,13 +37,12 @@ class ReviewBoardScorer(Scorer):
         """Calculates negative component of the user's score based on
         time taken to reply to tagged review requests and time taken
         to ship code from a review request from the time it was posted"""
-
-        raise NotImplementedError("Should have implemented this")
+        return 0
 
     def evaluate(self):
         """Evaluates score calculations for given user"""
         self._get_data()
         return self._score_positive(), self._score_negative()
 
-rbs = ReviewBoardScorer("emills")
-rbs.evaluate()
+# rbs = ReviewBoardScorer("emills")
+# rbs.evaluate()
