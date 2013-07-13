@@ -40,24 +40,53 @@
                 raw = JSON.parse(msg['resp'])
                 d = JSON.parse(msg.score);
                 var dataset = [d.rbp, d.rbn];
-                console.log(dataset);
+                // console.log(dataset);
 
-                d3.select(".base").selectAll("div")
-                .data(dataset)
-                .enter()
-                .append("div")
-                .attr("class", "bar")
-                .attr("fill", function(d, i) {
-                    console.log(i);
-                    if(i==1) {
-                        return 'rgb(200,50,50)';
-                    }
-                })
-                .style("height", function(d) {
-                    var barHeight = d * 20;
-                    return barHeight + "px";
-                });
+                // d3.select(".base").selectAll("div")
+                // .data(dataset)
+                // .enter()
+                // .append("div")
+                // .attr("class", "bar")
+                // .attr("fill", function(d, i) {
+                //     console.log(i);
+                //     if(i==1) {
+                //         return 'rgb(200,50,50)';
+                //     }
+                // })
+                // .style("height", function(d) {
+                //     var barHeight = d * 20;
+                //     return barHeight + "px";
+                // });
 
+                var w = 200;
+                var h = 400;
+                var barPadding = 1;
+                var svg = d3.select(".base")
+                            .append("svg")
+                            .attr("width", w)
+                            .attr("height", h);
+
+                svg.selectAll("rect")
+                   .data(dataset)
+                   .enter()
+                   .append("rect")
+                   .attr("x", function(d, i) {
+                        return i * (w / dataset.length);
+                   })
+                   .attr("y", function(d) {
+                        return h - (d * 15);
+                   })
+                   .attr("width", w / dataset.length - barPadding)
+                   .attr("height", function(d) {
+                        return d * 15;
+                   })
+                   .attr("fill", function(d, i) {
+                       console.log(i);
+                       if(i==1) {
+                           return 'rgb(200,50,50)';
+                       }
+                       return 'rgb(50,200,50)';
+                   });
 
                 // output(syntaxHighlight(raw));
                 var offset = $('h1').offset();
