@@ -114,7 +114,7 @@ INSTALLED_APPS = (
     'rbs.shipits',
 
     #3rd Party
-    'tastypie',
+    #'tastypie',
 
     #Django
     'django.contrib.auth',
