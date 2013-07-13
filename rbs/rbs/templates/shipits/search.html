@@ -9,15 +9,14 @@
 
 {% block content %}
 <h1>ship<span class="blue">it!</span></h1>
-<h2>{% if score %}{{ score }}{% endif %}</h2>
 <div class="pure-u-1-4"></div>
-<form action="" method="POST" class="pure-form pure-u-1-2">
-    {% csrf_token %}
-    <input name="user" type="text" class="pure-input-1" placeholder="Enter username of employee you would like to see">
+<form action="" method="POST" class="user-search-form pure-form pure-u-1-2">
+    <span id="id_csrf">{% csrf_token %}</span>
+    <input id="id_user" name="user" type="text" class="pure-input-1" placeholder="Enter username of employee you would like to see">
     <button id="user-search-button" class="pure-button pure-input-1 pure-button-primary" type="submit">Submit</button>
 </form>
-
 <div class="pure-u-1-4"></div>
+<div class="base"></div>
 <pre class="json-content">
 </pre>
 {% endblock %}
@@ -27,18 +26,57 @@
 
 {% block inline-javascript %}
 <script>
-    $(document).ready(function() {
-        $('#user-search-button').submit(function(e) {
 
+
+    $(document).ready(function() {
+        $('.user-search-form').submit(function(e) {
+            e.preventDefault();
+            $.ajax({
+              type: "POST",
+              url: "",
+              data: { user: $('#id_user').val(), csrfmiddlewaretoken: $('#id_csrf input').val() }
+            }).done(function( msg ) {
+                console.log(msg);
+                raw = JSON.parse(msg['resp'])
+                $('.base').text(msg.score);
+                d = JSON.parse(msg.score);
+                var dataset = [d.rdp, d.rbn];
+                console.log(dataset);
+                d3.select(".base").selectAll("div")
+                .data(dataset)
+                .enter()
+                .append("div")
+                .attr("class", "bar")
+                .style("height", function(d) {
+                    var barHeight = d * 5;
+                    return barHeight + "px";
+                });
+
+
+                // output(syntaxHighlight(raw));
+                var offset = $('h1').offset();
+                var offset2 = $('.user-search-form').offset();
+                $('h1').css({
+                        'position': 'absolute',
+                        'top': offset.top,
+                        'left': offset.left
+                    }).animate({
+                        'top': '0px',
+                        'left': '20px'
+                    }, 500);
+                $('.user-search-form').css({
+                        'position': 'absolute',
+                        'top': offset2.top,
+                        'left': offset2.left
+                    }).animate({
+                        'top': '20px',
+                        'left': '400px'
+                    }, 500);
+
+            });
         })
     });
 
-
-
-    {% if resp %}
-    var obj = {{ resp|safe }};
-    output(syntaxHighlight(obj));
-    {% endif %}
     function output(inp) {
         document.body.appendChild(document.createElement('pre')).innerHTML = inp;
     }

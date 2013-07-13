@@ -16,10 +16,11 @@ def index(request):
 		if created or not userstats.score:
 			score = userstats.compute_score()
 		else:
-			score = userstats.score
+			score = userstats.data
 		req = url_to_json("http://10.16.20.100:8080/api/search?q="+user)
 		print score
 		context = { 'resp': json.dumps(req), 'score': score }
+		return HttpResponse(json.dumps(context), mimetype="application/json")
 	else:
 		print "get"
 	return render_to_response("shipits/search.html", context, context_instance=RequestContext(request))
