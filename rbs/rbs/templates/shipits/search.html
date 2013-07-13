@@ -2,7 +2,13 @@
 
 {% block title %} ReviewBoard Scoring System {% endblock %}
 
-{% block content %}asddsad{% endblock %}
+{% block content %}
+<form action="" method="POST">
+    {% csrf_token %}
+    <input name="user" type="text">
+    <input type="submit">
+</form>
+{% endblock %}
 {% block javascript %}{% endblock %}
 
 {% block inline-javascript %}{% endblock %}
