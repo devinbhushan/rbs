@@ -6,11 +6,10 @@
         <title>{% block title %} ReviewBoard Scoring System {% endblock %}</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="description" content="ReviewBoard Scoring System" />
-        <meta name="keywords" content="jquery, form, sliding, usability, css3, validation, javascript"/>
+        <meta name="keywords" content=""/>
         <link rel="stylesheet" href="{% static 'css/pure-min.css' %}" type="text/css" media="screen, print"/>
         <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="screen"/>
         <!-- <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.1.0/pure-min.css"> -->
-
 
         <!--
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -18,38 +17,10 @@
          -->
         <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 
-
         {% block meta %}{% endblock %}
     </head>
+
     <body>
-
-    <div id="sidebar">
-    <h1><img src="{% static 'img/symbol-solid.png' %}"></h1>
-    {% if user.is_authenticated %}
-    <ul>
-        <li><a href="{% url 'new_customer_appraise' %}"><span class="icon">+</span> New Appraisal</a></li>
-        <li><a href="{% url 'customer_list' %}"><span class="icon">5</span> Customers</a></li>
-        <li><a href="{% url 'metal_prices' %}"><span class="icon">7</span> Metal Prices</a></li>
-        <li><a href=""><span class="icon">}</span> Recent Appraisals</a></li>
-    </ul>
-    {% endif %}
-    <ul class="nav-bottom">
-        <li class="assistance">
-            <a href="mailto:ericmills2@gmail.com">
-            <h3>Assistance</h3>
-            <p>Having Problems? ericmills2@gmail.com</p>
-            </a>
-        </li>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'userena_profile_edit' user %}"><span class="icon">f</span> Account</a></li>
-        <li><a href="{% url 'userena_signout' %}"><span class="icon">x</span> Logout</a> </li>
-        {% else %}
-        <li><a href="{% url 'userena_signup' %}"><span class="icon"></span> Signup</a></li>
-        <li><a href="{% url 'userena_signin' %}"><span class="icon"></span> Signin</a> </li>
-        {% endif %}
-    </ul>
-    </div>
-
     <div id="content">
     {% block content %}{% endblock %}
     </div>

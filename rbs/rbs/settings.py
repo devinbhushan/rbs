@@ -1,7 +1,12 @@
+import os
 # Django settings for rbs project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
+
+PROJECT_PATH = os.path.dirname(__file__)
+SITE_ROOT = os.path.join(PROJECT_PATH)
+
 
 ADMINS = (
     ('Eric Mills', 'ericmills2@gmail.com'),
@@ -104,6 +109,7 @@ ROOT_URLCONF = 'rbs.urls'
 WSGI_APPLICATION = 'rbs.wsgi.application'
 
 TEMPLATE_DIRS = (
+    os.path.join(SITE_ROOT, '.', 'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
