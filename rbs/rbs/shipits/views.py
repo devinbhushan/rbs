@@ -11,7 +11,7 @@ def index(request):
 	if request.method == "POST":
 		user = request.POST['user']
 		print "username lookup: ", user
-		req = url_to_json("http://10.16.20.100:8080/api/search?username="+user)
+		req = url_to_json("http://10.16.20.100:8080/api/search?q="+user)
 		context = { 'resp': json.dumps(req) }
 	else:
 		print "get"
