@@ -38,7 +38,6 @@
             }).done(function( msg ) {
                 console.log(msg);
                 raw = JSON.parse(msg['resp'])
-                $('.base').text(msg.score);
                 d = JSON.parse(msg.score);
                 var dataset = [d.rdp, d.rbn];
                 console.log(dataset);
@@ -48,7 +47,7 @@
                 .append("div")
                 .attr("class", "bar")
                 .style("height", function(d) {
-                    var barHeight = d * 5;
+                    var barHeight = d * 10;
                     return barHeight + "px";
                 });
 
