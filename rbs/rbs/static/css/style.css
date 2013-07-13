@@ -48,8 +48,8 @@ body {
 
 .bar {
 display: inline-block;
-width: 20px;
-height: 75px;
+width: 80px;
+height: 400px;
 margin-right: 2px;
 background-color: teal;
 }

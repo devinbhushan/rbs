@@ -39,15 +39,22 @@
                 console.log(msg);
                 raw = JSON.parse(msg['resp'])
                 d = JSON.parse(msg.score);
-                var dataset = [d.rdp, d.rbn];
+                var dataset = [d.rbp, d.rbn];
                 console.log(dataset);
+
                 d3.select(".base").selectAll("div")
                 .data(dataset)
                 .enter()
                 .append("div")
                 .attr("class", "bar")
+                .attr("fill", function(d, i) {
+                    console.log(i);
+                    if(i==1) {
+                        return 'rgb(200,50,50)';
+                    }
+                })
                 .style("height", function(d) {
-                    var barHeight = d * 10;
+                    var barHeight = d * 20;
                     return barHeight + "px";
                 });
 
