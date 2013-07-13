@@ -6,7 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-     url(r'^$', 'rbs.views.index', name='index'),
+     url(r'^$', 'rbs.shipits.views.index', name='index'),
     # url(r'^rbs/', include('rbs.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
